@@ -11,6 +11,8 @@ function Home() {
     const [toastMessage, setToastMessage] = useState('');     // トースト通知
     const dropdownRef = useRef();
     const itemRefs = useRef([]);
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 
     // 🏔️ 富士山登山ビジュアライゼーション用計算
     const FUJI_HEIGHT = 3776; // 富士山標高(m)
@@ -19,7 +21,7 @@ function Home() {
 
     // 📥 初回 読んだ本一覧取得
     useEffect(() => {
-        fetch('http://localhost:3001/api/read-books')
+        fetch(`${API_BASE_URL}/api/read-books`)
             .then(res => res.json())
             .then(data => setReadBooks(data))
             .catch(err => console.error('読んだ本の取得エラー:', err));
@@ -96,8 +98,8 @@ function Home() {
         };
 
         const endpoint = type === 'read'
-            ? 'http://localhost:3001/api/read-books'
-            : 'http://localhost:3001/api/want-to-read-books';
+            ? `${API_BASE_URL}/api/read-books`
+            : `${API_BASE_URL}/api/want-to-read-books`;
 
         try {
             await fetch(endpoint, {
@@ -111,7 +113,7 @@ function Home() {
 
             if (type === 'read') {
                 // 読んだ本を登録した場合のみ、リストを即更新
-                fetch('http://localhost:3001/api/read-books')
+                fetch(`${API_BASE_URL}/api/read-books`)
                     .then(res => res.json())
                     .then(data => setReadBooks(data));
             }

@@ -7,10 +7,11 @@ import './App.css'; // スタイル（year-selectorクラス）をここで適�
 function ReadingChart() {
     const [readBooks, setReadBooks] = useState([]);                   // 読了書籍データ
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // 選択中の年（初期値は今年）
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
     // 📚 初回ロード時に読了書籍データを取得する
     useEffect(() => {
-        fetch('http://localhost:3001/api/read-books')
+        fetch(`${API_BASE_URL}/api/read-books`)
             .then(res => res.json())
             .then(data => setReadBooks(data))
             .catch(err => console.error('読了書籍データの取得エラー:', err));

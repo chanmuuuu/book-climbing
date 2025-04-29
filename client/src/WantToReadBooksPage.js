@@ -12,6 +12,7 @@ function WantToReadBooksPage() {
     const [selectedIndex, setSelectedIndex] = useState(-1);     // 選択中インデックス
     const dropdownRef = useRef();                               // ドロップダウン参照
     const itemRefs = useRef([]);                                // 各アイテム参照
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
     // -----------------------------
     // 📥 読みたい本一覧を初回取得する
@@ -22,7 +23,7 @@ function WantToReadBooksPage() {
 
     const fetchWantToReadBooks = async () => {
         try {
-            const res = await fetch('http://localhost:3001/api/want-to-read-books');
+            const res = await fetch(`${API_BASE_URL}/api/want-to-read-books`);
             const data = await res.json();
             setWantToReadBooks(data);
         } catch (err) {
@@ -110,7 +111,7 @@ function WantToReadBooksPage() {
         };
 
         try {
-            const res = await fetch('http://localhost:3001/api/want-to-read-books', {
+            const res = await fetch(`${API_BASE_URL}/api/want-to-read-books`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(bookToRegister),
@@ -139,7 +140,7 @@ function WantToReadBooksPage() {
         };
 
         // 1. 読んだ本コレクションにPOST
-        fetch('http://localhost:3001/api/read-books', {
+        fetch(`${API_BASE_URL}/api/read-books`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bookToMove),
@@ -147,7 +148,7 @@ function WantToReadBooksPage() {
             .then(res => res.json())
             .then(() => {
                 // 2. 成功したら読みたい本からDELETE
-                fetch(`http://localhost:3001/api/want-to-read-books/${book._id}`, {
+                fetch(`${API_BASE_URL}/api/want-to-read-books/${book._id}`, {
                     method: 'DELETE'
                 })
                     .then(() => {
@@ -164,7 +165,7 @@ function WantToReadBooksPage() {
     // -----------------------------
     const handleDelete = async (id) => {
         try {
-            await fetch(`http://localhost:3001/api/want-to-read-books/${id}`, { method: 'DELETE' });
+            await fetch(`${API_BASE_URL}/api/want-to-read-books/${id}`, { method: 'DELETE' });
             setWantToReadBooks(prev => prev.filter(book => book._id !== id));
         } catch (err) {
             console.error('読みたい本の削除エラー:', err);

@@ -9,6 +9,7 @@ function ReadBooksPage() {
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const dropdownRef = useRef();
     const itemRefs = useRef([]);
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
     useEffect(() => {
         fetchReadBooks();
@@ -16,7 +17,7 @@ function ReadBooksPage() {
 
     const fetchReadBooks = async () => {
         try {
-            const res = await fetch('http://localhost:3001/api/read-books');
+            const res = await fetch(`${API_BASE_URL}/api/read-books`);
             const data = await res.json();
             setReadBooks(data);
         } catch (err) {
@@ -89,7 +90,7 @@ function ReadBooksPage() {
         };
 
         try {
-            const res = await fetch('http://localhost:3001/api/read-books', {
+            const res = await fetch(`${API_BASE_URL}/api/read-books`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(bookToRegister),
@@ -106,7 +107,7 @@ function ReadBooksPage() {
 
     const handleDelete = async (id) => {
         try {
-            await fetch(`http://localhost:3001/api/read-books/${id}`, { method: 'DELETE' });
+            await fetch(`${API_BASE_URL}/api/read-books/${id}`, { method: 'DELETE' });
             setReadBooks(prev => prev.filter(book => book._id !== id));
         } catch (err) {
             console.error('削除エラー:', err);
@@ -126,14 +127,14 @@ function ReadBooksPage() {
 
         try {
             // 先に want-to-read-books に登録
-            await fetch('http://localhost:3001/api/want-to-read-books', {
+            await fetch(`${API_BASE_URL}/api/want-to-read-books`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(bookToRegister),
             });
 
             // 登録できたら、read-books から削除
-            await fetch(`http://localhost:3001/api/read-books/${book._id}`, {
+            await fetch(`${API_BASE_URL}/api/read-books/${book._id}`, {
                 method: 'DELETE',
             });
 
