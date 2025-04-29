@@ -3,6 +3,7 @@
 -------------------------------- */
 .App {
   text-align: center;
+  padding-top: 40px;
 }
 
 /* ロゴ用スタイル */
@@ -32,7 +33,7 @@
    🚩 ナビゲーションバー関連
 -------------------------------- */
 
-/* ナビゲーションバー全体 */
+/* 🚩 ナビゲーションバー（PC用デフォルト） */
 .navbar {
   display: flex;
   align-items: center;
@@ -40,7 +41,17 @@
   padding: 0.5rem 2rem;
   border-bottom: 1px solid #ccc;
   background-color: #f5f5f5;
+  position: fixed;
+  /* 📍 ここを追加して固定化！ */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  /* 📍 上に来るように設定 */
+  height: 30px;
+  /* 📍 固定化すると高さが必要なので追加（微調整可） */
 }
+
 
 /* 左側ロゴリンク */
 .logo {
@@ -48,8 +59,6 @@
   font-size: 1.3rem;
   text-decoration: none;
   color: #333;
-
-  /* background-color: #b328c6; */
 }
 
 /* 中央リンク（読んだ本・読みたい本） */
@@ -61,10 +70,8 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  transform: translateX(40px);
+  /* transform: translateX(40px); */
   /* 富士山に合わせるため右に少し移動 */
-
-  /* background-color: #286ac6; */
 }
 
 /* 右側リンク（チャート・マイページ） */
@@ -75,8 +82,6 @@
   list-style: none;
   margin: 0;
   padding: 0;
-
-  /* background-color: #469e1d; */
 }
 
 /* 共通リンクスタイル（中央・右共通） */
@@ -89,9 +94,6 @@
   font-weight: bold;
   color: #333;
   font-size: 1rem;
-  /* padding: 0.5rem 0.8rem; */
-
-  /* background-color: #c62828; */
 }
 
 /* アイコンリンク専用（チャートページ遷移用） */
@@ -100,17 +102,71 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* width: 5rem;
-  height: 5rem; */
-
-  /* background-color: #c62828; */
 }
 
-/* ナビゲーションブランド用（現在未使用） */
-.navbar-brand {
-  font-family: 'Pacifico', cursive;
+/* ハンバーガーアイコン */
+.hamburger-menu {
+  display: none;
   font-size: 2rem;
+  cursor: pointer;
+}
+
+/* モバイルメニュー */
+.mobile-menu {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 9999;
+  animation: fadeSlideIn 0.3s ease forwards;
+}
+
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-menu a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  text-decoration: none;
   color: #333;
+  font-weight: bold;
+}
+
+/* 📱 スマホ画面（768px以下） */
+@media (max-width: 768px) {
+  .nav-links-right {
+    display: none;
+    /* 📍 PCでは右に表示してた右リンクを隠す */
+  }
+
+  .hamburger-menu {
+    display: block;
+    /* ハンバーガーを表示する */
+  }
+
+  .nav-links-center {
+    flex-grow: 0;
+    flex-direction: row;
+    gap: 1rem;
+  }
 }
 
 /* -------------------------------
@@ -275,6 +331,11 @@
   margin: 0 auto;
 }
 
+.search-container input {
+  font-size: 16px;
+  /* 📍 最低16px以上にして拡大防止 */
+}
+
 .search-results-dropdown {
   position: absolute;
   top: 100%;
@@ -388,8 +449,10 @@
 -------------------------------- */
 .toast {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  /* 📍 中央寄せ */
   background: #4caf50;
   color: white;
   padding: 10px 20px;
@@ -399,6 +462,7 @@
   animation: fadeInOut 3s forwards;
   font-size: 0.95rem;
 }
+
 
 /* トーストフェードイン・アウト */
 @keyframes fadeInOut {
