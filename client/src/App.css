@@ -152,13 +152,24 @@
    📚 書籍ギャラリー（登録本一覧）
 -------------------------------- */
 .book-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(5, 140px);
+  /* 📍 PCでは最大5列 */
   justify-content: center;
+  /* 📍 中央揃え */
+  gap: 16px;
   margin: 20px 0;
+  padding: 16px;
+}
 
-  /* background-color: blue; */
+/* 📱 スマホ対応（600px以下） */
+@media (max-width: 600px) {
+  .book-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    /* スマホは2列 */
+    padding: 8px;
+    gap: 12px;
+  }
 }
 
 /* 各本カード */
